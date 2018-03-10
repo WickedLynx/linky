@@ -3,6 +3,7 @@ const async = require('async');
 const Link = require('./link');
 const Tag = require('./tag');
 const mongoose = require('mongoose');
+const validURL = require('valid-url');
 
 const DBHelper = {
   empty: function() {
@@ -17,19 +18,70 @@ const DBHelper = {
     return Tag.find({}).exec();
   },
 
+  getAllLinks: function() {
+    return Link.find({}).exec();
+  },
+
+  associateLinkWithTags: function(link, tags) {
+    tags.forEach(function(tag) {
+      link.tags.push(tag);
+      tag.links.push(link);
+    });
+
+    const helper = this;
+    return new Promise(function(resolve, reject) {
+      Promise.all(tags.map(helper.saveTag)).then(function() {
+        link.save().then(resolve).catch(reject);
+      }).catch(reject);
+    });
+  },
+
+  saveTag: function(tag) {
+    return tag.save();
+  },
+
+  addLink: function(linkData) {
+    const linkURL = linkData.url;
+    const tagsToAdd = linkData.tags;
+
+    const helper = this;
+    return new Promise(function(resolve, reject) {
+      helper.insertLink(linkURL).then(function(link) {
+        helper.upsertTags(tagsToAdd).then(function(tags) {
+          helper.associateLinkWithTags(link, tags).then(resolve).error(reject);
+        }).catch(reject);
+      }).catch(reject);
+    })
+
+  },
+
+  insertLink: function(linkURL) {
+    if (!validURL.isUri(linkURL)) {
+      return Promise.reject(Error("Link is not a valid URL"));
+    }
+    return new Promise(function(resolve, reject) {
+      Link.findOne({url: linkURL}).then(function(savedLink) {
+        if (savedLink) {
+          reject(Error("Link is already added"));
+          return;
+        }
+        Link.create({url: linkURL}).then(resolve).catch(reject);
+      }).catch(reject);
+    });
+  },
+
   upsertTags: function(tags) {
-    return Promise.all(tags.map(this.upsertTag));
+    const tagsToAdd = tags.map(function(tag) {
+      return tag.toLowerCase();
+    });
+    if (tagsToAdd.length == 0) {
+      return Promise.reject(Error("No tags"));
+    }
+    return Promise.all(tagsToAdd.map(this.upsertTag));
   },
 
   upsertTag: function(tag) {
-    return new Promise(function(resolve, reject) {
-      Tag.findOneAndUpdate({name: tag}, {name: tag}, {upsert: true})
-      .then(function(theTag) {
-        resolve(theTag);
-      }).catch(function(error) {
-        reject(error);
-      });
-    });
+      return Tag.findOneAndUpdate({name: tag}, {name: tag}, {upsert: true, new: true}).exec();
   }
 }
 

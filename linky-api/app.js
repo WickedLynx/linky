@@ -18,36 +18,51 @@ app.use(bodyParser.json());
 
 mongoose.connect("mongodb://127.0.0.1");
 
-DBHelper.empty().then(function() {
-  console.log("emptied!");
-}).catch(function(err) {
-  console.log("failed to empty :(");
-  console.log(err);
-});
-
-
-
+// This clears the DB!
+if (false) {
+  DBHelper.empty().then(function() {
+    console.log("emptied!");
+  }).catch(function(err) {
+    console.log("failed to empty :(");
+    console.log(err);
+  });
+}
 
 //----------------------------------------------------------------------
 // Routes
 //----------------------------------------------------------------------
 
+app.get('/links', function(req, res) {
+  DBHelper.getAllLinks().then(function(links) {
+    postSuccess(res, links);
+  }).catch(function(error) {
+    postError(res, 500, error.message);
+  });
+});
+
 app.post('/links/add', function(req, res) {
+  console.log(req.body);
   const url = req.body.url;
   const tags = req.body.tags;
-  // TODO
-  postError(res, 500, "not done yet!");
+  DBHelper.addLink(req.body).then(function(link) {
+    postSuccess(res, link);
+  }).catch(function(err) {
+    console.log("failed");
+    postError(res, 500, err.message);
+  });
 });
 
 app.get('/tags', function(req, res) {
   DBHelper.getAllTags().then(function(tags) {
     postSuccess(res, tags);
   }).catch(function(err) {
-    postError(res, 500, err);
+    postError(res, 500, err.message);
   })
 });
 
-app.get('/seed', function(req, res) {
+// Seeding (for development only)
+
+app.get('/tags/seed', function(req, res) {
   DBHelper.upsertTags(["science", "technology", "engineering", "funny"])
   .then(function(tags) {
     console.log(tags);
@@ -58,6 +73,19 @@ app.get('/seed', function(req, res) {
   });
 });
 
+app.get('/links/seed', function(req, res) {
+  DBHelper.addLink({
+    url: 'http://apple.com',
+    tags: [
+      'fun',
+      'tech'
+    ]
+  }).then(function(link) {
+    postSuccess(res, link);
+  }).catch(function(err) {
+    postError(res, 500, err.message);
+  });
+});
 
 
 //----------------------------------------------------------------------
