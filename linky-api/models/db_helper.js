@@ -51,7 +51,7 @@ const DBHelper = {
           helper.associateLinkWithTags(link, tags).then(resolve).error(reject);
         }).catch(reject);
       }).catch(reject);
-    })
+    });
 
   },
 
