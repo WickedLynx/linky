@@ -10,6 +10,10 @@ export const ALL_LINKS_LOADING = 'ALL_LINKS_LOADING';
 export const ALL_LINKS_LOADED = 'ALL_LINKS_LOADED';
 export const ALL_LINKS_ERROR = 'ALL_LINKS_ERROR';
 
+export const ADD_LINK_LOADING = 'ADD_LINK_LOADING';
+export const ADD_LINK_LOADED = 'ADD_LINK_LOADED';
+export const ADD_LINK_ERROR = 'ADD_LINK_ERROR';
+
 function parseError(error) {
   var errorToReturn = { message: "Unknown error :(" };
   if (error && error.response && error.response.data && error.response.data.error) {
@@ -49,6 +53,28 @@ export const fetchAllLinks = () => dispatch => {
   }).catch(error => {
     dispatch({
       type: ALL_LINKS_ERROR,
+      error: parseError(error)
+    });
+  })
+}
+
+export const addLink = (link) => dispatch => {
+  dispatch({
+    type: ADD_LINK_LOADING
+  });
+  return axios.post(API_BASE_URL + '/links/add', {
+    url: link.url,
+    tags: link.tags
+  }).then(response => {
+    dispatch(fetchAllLinks());
+    dispatch(fetchTags());
+    dispatch({
+      type: ADD_LINK_LOADED,
+      data: response.data.data
+    });
+  }).catch(error => {
+    dispatch({
+      type: ADD_LINK_ERROR,
       error: parseError(error)
     });
   })

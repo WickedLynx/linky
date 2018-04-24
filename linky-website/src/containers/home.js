@@ -2,8 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import TagMenu from './tag_menu';
 import AllLinksView from './all_links_view';
+import AddLinkView from './add_link_view';
 
 class Home extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { addViewVisible: false };
+  }
+
   render() {
     return (
       <div>
@@ -16,13 +22,12 @@ class Home extends Component {
       <div>
         <TagMenu />
       </div>
+      <div>
+        <AddLinkView />
+      </div>
       </div>
     );
   }
 }
 
-function mapStateToProps(state) {
-  return { foo: "bar" };
-}
-
-export default connect(mapStateToProps)(Home);
+export default Home
