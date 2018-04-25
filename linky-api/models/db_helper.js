@@ -21,7 +21,7 @@ const DBHelper = {
   },
 
   getAllLinks: function() {
-    return Link.find({}).exec();
+    return Link.find({}).populate('tags').exec();
   },
 
   associateLinkWithTags: function(link, tags) {

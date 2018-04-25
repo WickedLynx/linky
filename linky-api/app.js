@@ -46,7 +46,6 @@ app.post('/links/add', function(req, res) {
   DBHelper.addLink(req.body).then(function(link) {
     postSuccess(res, link);
   }).catch(function(err) {
-    console.log("failed");
     postError(res, 500, err.message);
   });
 });
