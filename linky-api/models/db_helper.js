@@ -4,6 +4,8 @@ const Link = require('./link');
 const Tag = require('./tag');
 const mongoose = require('mongoose');
 const validURL = require('valid-url');
+const metascraper = require('metascraper');
+const got = require('got');
 
 const DBHelper = {
   empty: function() {
@@ -40,6 +42,32 @@ const DBHelper = {
     return tag.save();
   },
 
+  fetchMetaForLink: function(link) {
+	  if (!link.url) { return; }
+	  return new Promise(function(resolve) {
+		  got(link.url).then(function(response, url) {
+			  metascraper({html: response.body, url: response.url}).then(function(meta) {
+				  if (!meta) { 
+					  resolve(link);
+					  return;
+				  }
+				  link.title = meta.title;
+				  link.image = meta.image;
+				  link.description = meta.description;
+				  link.author = meta.author;
+				  link.publisher = meta.publisher;
+				  link.save(function(error, link) {
+					  resolve(link);
+				  });
+			  }).catch(function(error) {
+				  resolve(link);
+			  });
+		  }).catch(function(error) {
+				resolve(link);
+		  });
+	  });
+  },
+
   addLink: function(linkData) {
     const linkURL = linkData.url;
     const tagsToAdd = linkData.tags;
@@ -48,7 +76,11 @@ const DBHelper = {
     return new Promise(function(resolve, reject) {
       helper.insertLink(linkURL).then(function(link) {
         helper.upsertTags(tagsToAdd).then(function(tags) {
-          helper.associateLinkWithTags(link, tags).then(resolve).error(reject);
+			helper.associateLinkWithTags(link, tags).then(function(link) {
+				helper.fetchMetaForLink(link).then(function(link) {
+					resolve(link);
+				});
+			}).error(reject);
         }).catch(reject);
       }).catch(reject);
     });
@@ -75,7 +107,7 @@ const DBHelper = {
       return tag.toLowerCase();
     });
     if (tagsToAdd.length == 0) {
-      return Promise.reject(Error("No tags"));
+      return Promise.resolve([]);
     }
     return Promise.all(tagsToAdd.map(this.upsertTag));
   },

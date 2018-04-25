@@ -41,7 +41,6 @@ app.get('/links', function(req, res) {
 });
 
 app.post('/links/add', function(req, res) {
-  console.log(req.body);
   const url = req.body.url;
   const tags = req.body.tags;
   DBHelper.addLink(req.body).then(function(link) {
