@@ -16,11 +16,9 @@ class Home extends Component {
       <div>
         <h1> Welcome to Linky! </h1>
       </div>
+        <TagMenu />
       <div>
         <AllLinksView />
-      </div>
-      <div>
-        <TagMenu />
       </div>
       <div>
         <AddLinkView />

@@ -1,0 +1,13 @@
+#tagColumn {
+	margin: 0;
+	padding: 0;
+}
+
+#tagColumn div {
+	padding: 2px;
+}
+
+#tagRootContainer {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}

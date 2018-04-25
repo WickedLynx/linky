@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchTags } from '../actions/index';
+import { Segment, Grid, Button } from 'semantic-ui-react';
 
 class TagMenu extends Component {
   componentDidMount() {
@@ -9,7 +10,7 @@ class TagMenu extends Component {
 
   loading() {
     return (
-      <p> Loading... </p>
+      <p></p>
     );
   }
 
@@ -19,18 +20,32 @@ class TagMenu extends Component {
     );
   }
 
+  customLoaded() {
+	  
+  }
+
   loaded() {
     const tags = this.props.tags;
-    const listElements = tags.map((tag) => {
-      return (
-        <li key={tag._id}>{tag.name}</li>
-      );
-    });
-    return (
-      <ul>
-      {listElements}
-      </ul>
-    );
+	if (tags.length === 0) {
+		return (<div></div>);
+	}
+	const buttons = tags.map((tag) => {
+		return (
+			<Grid.Column key={tag._id} id="tagColumn">
+			<Segment compact basic>
+			<Button toggle>{tag.name}</Button>
+			</Segment>
+			</Grid.Column>
+		);
+	});
+	return (
+		<div id="tagRootContainer">
+		<Grid container doubling columns={10}>
+			{buttons}
+		</Grid>
+		</div>
+	);
+	
   }
 
   render() {

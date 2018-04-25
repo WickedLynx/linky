@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchAllLinks } from '../actions/index';
+import { Grid, Card, Icon } from 'semantic-ui-react';
 
 class AllLinksView extends Component {
   componentDidMount() {
@@ -22,15 +23,33 @@ class AllLinksView extends Component {
   loaded() {
     const allLinks = this.props.links;
     const listElements = allLinks.map((link) => {
+		const tags = link.tags
+		const tagString = tags.map((tag) => {
+			return tag.name;
+		}).join(',');
+		const extra = (
+			<p>
+			<Icon name='tags'/>
+			{tagString}
+			</p>
+		);
       return (
-        <li key={link._id}>{link.url}</li>
+		  <Grid.Column key={link._id}>
+		  <Card
+		  href={link.url}
+		  image={link.image}
+		  header={link.title}
+		  description={link.description}
+		  extra={extra}
+		  />
+		  </Grid.Column>
       );
     })
     return (
       <div>
-      <ul>
+	  <Grid doubling container columns={5}>
         {listElements}
-      </ul>
+	</Grid>
       </div>
     );
   }
