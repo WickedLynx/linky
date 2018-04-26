@@ -17,7 +17,7 @@ class AddLinkView extends Component {
 
   clickAdd() {
     const url = this.state.urlInput;
-    if (!url || url.length == 0) { return; }
+    if (!url || url.length === 0) { return; }
     const tagInput = this.state.tagInput;
     var tags = this.state.selectedTags.map((tag) => { return tag.name;}) || [];
     if (tagInput && tagInput.length > 0) {

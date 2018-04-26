@@ -10,7 +10,7 @@ export function LinkView(props) {
 	return (
 		<div className="linkViewRootContainer">
 		<a href={props.link.url}>
-			<img src={image}></img>
+			<img src={image} alt=""></img>
 			<p className="linkTitle">{title}</p>
 			<p className="linkDescription">{description}</p>
 			<p className="linkTags">{tagString}</p>

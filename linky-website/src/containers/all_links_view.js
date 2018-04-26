@@ -4,9 +4,6 @@ import { fetchAllLinks } from '../actions/index';
 import { LinkView } from '../components/link_view';
 
 class AllLinksView extends Component {
-	constructor(props) {
-		super(props);
-	}
   componentDidMount() {
     this.props.fetchAllLinks();
   }

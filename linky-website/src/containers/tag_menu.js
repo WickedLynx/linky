@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchTags } from '../actions/index';
-import { Segment, Grid, Button } from 'semantic-ui-react';
 
 class TagMenu extends Component {
 	constructor(props) {

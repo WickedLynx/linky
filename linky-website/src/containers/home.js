@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import TagMenu from './tag_menu';
 import AllLinksView from './all_links_view';
 
