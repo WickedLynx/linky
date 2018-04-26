@@ -29,11 +29,19 @@ class TagMenu extends Component {
   }
 
   clickTag(tag) {
+	  var selectedIDs = this.state.selectedTagIDs;
 	  if (this.state.selectedTagIDs.includes(tag._id)) {
-		  this.setState({ selectedTagIDs: this.state.selectedTagIDs.filter((aTag) => { return aTag !== tag._id})});
-		  return;
+		  selectedIDs = this.state.selectedTagIDs.filter((aTag) => { return aTag !== tag._id});
+	  } else {
+		  selectedIDs = this.state.selectedTagIDs.concat([tag._id]);
 	  }
-	  this.setState({ selectedTagIDs: this.state.selectedTagIDs.concat([tag._id])});
+	  const selectedTags = this.props.tags.filter((tag) => {
+		  return selectedIDs.includes(tag._id);
+	  });
+	  if (this.props.onSelectionChange) {
+		  this.props.onSelectionChange(selectedTags);
+	  }
+	  this.setState({ selectedTagIDs: selectedIDs });
   }
 
   loaded() {

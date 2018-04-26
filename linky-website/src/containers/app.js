@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import Home from './home';
+import AddLinkView from './add_link_view';
 import InvalidPath from '../components/invalid_path';
 
 class App extends Component {
@@ -16,6 +17,7 @@ class App extends Component {
       <Router>
       <Switch>
               <Route exact path='/' component={Home} />
+              <Route exact path='/add' component={AddLinkView} />
               <Route path='*' component={InvalidPath} />
       </Switch>
       </Router>

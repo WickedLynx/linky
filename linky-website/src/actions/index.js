@@ -66,7 +66,6 @@ export const addLink = (link) => dispatch => {
     url: link.url,
     tags: link.tags
   }).then(response => {
-	  console.log(response.data.data);
     dispatch(fetchAllLinks());
     dispatch(fetchTags());
     dispatch({
