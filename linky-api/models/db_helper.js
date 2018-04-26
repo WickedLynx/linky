@@ -104,7 +104,7 @@ const DBHelper = {
 
   upsertTags: function(tags) {
     const tagsToAdd = tags.map(function(tag) {
-      return tag.toLowerCase();
+      return tag.trim().toLowerCase();
     });
     if (tagsToAdd.length == 0) {
       return Promise.resolve([]);
