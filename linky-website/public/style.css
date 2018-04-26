@@ -89,6 +89,34 @@ body {
 	cursor: pointer;
 }
 
+#optionsWrapper {
+	margin: 0 auto;
+	margin-top: 20px;
+	text-align: center;
+}
+
+
+#optionsWrapper a {
+	background: none;
+	color: #EEEEEE;
+	font-family: 'Cabin', sans-serif;
+	font-size: 1.4em;
+	font-weight: bold;
+	padding: 0px 8px;
+}
+
+#optionsWrapper span {
+	background: none;
+	color: #EEEEEE;
+	font-family: 'Cabin', sans-serif;
+	font-size: 1.4em;
+	padding: 0px 8px;
+}
+
+#optionsWrapper a:hover {
+	color: #00ADB5;
+}
+
 #linksContainerWrapper {
 	width: 95%;
 	max-width: 1200px;

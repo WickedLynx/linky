@@ -8,6 +8,11 @@ class App extends Component {
   render() {
     return (
       <div>
+		  <div id="brand">
+			  <a href="/">
+				<h1>Linky</h1>
+			  </a>
+		  </div>
       <Router>
       <Switch>
               <Route exact path='/' component={Home} />

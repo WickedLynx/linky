@@ -13,18 +13,26 @@ class Home extends Component {
   render() {
     return (
       <div>
-      <div id="brand">
-		  <a href="/">
-			<h1>Linky</h1>
-		  </a>
-      </div>
         <TagMenu />
-      <div>
-        <AllLinksView />
-      </div>
-      <div>
-        <AddLinkView />
-      </div>
+	  <div id="optionsWrapper">
+		<a href="/add">
+			Add link
+		</a>
+		<span>|</span>
+		<a href="/manage/tags">
+			Manage tags
+		</a>
+		<span>|</span>
+		<a href="logout">
+			Logout
+		</a>
+	  </div>
+		  <div>
+			<AllLinksView />
+		  </div>
+		  <div>
+			<AddLinkView />
+		  </div>
       </div>
     );
   }
