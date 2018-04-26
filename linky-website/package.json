@@ -2,7 +2,7 @@
   "name": "linky-website",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://mywebsite.com/relativepath",
+  "homepage": "https://harshad.nl/linky",
   "dependencies": {
     "axios": "^0.18.0",
     "express": "^4.16.3",
