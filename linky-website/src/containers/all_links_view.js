@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchAllLinks } from '../actions/index';
 import { Grid, Card, Icon } from 'semantic-ui-react';
+import { LinkView } from '../components/link_view';
 
 class AllLinksView extends Component {
   componentDidMount() {
@@ -35,13 +36,7 @@ class AllLinksView extends Component {
 		);
       return (
 		  <Grid.Column key={link._id}>
-		  <Card
-		  href={link.url}
-		  image={link.image}
-		  header={link.title}
-		  description={link.description}
-		  extra={extra}
-		  />
+		  <LinkView link={ link } />
 		  </Grid.Column>
       );
     })

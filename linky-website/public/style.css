@@ -1,6 +1,56 @@
 body {
 	background: #393E46;
 }
+
+.linkViewRootContainer {
+	background: #EEEEEE;
+	border-radius: 5px;
+	border-style: solid;
+	border-width: 2px;
+	border-color: #EEEEEE;
+}
+
+.linkViewRootContainer:hover {
+	border-color: #00ADB5;
+	cursor: pointer;
+}
+
+.linkViewRootContainer img {
+	width: 100%;
+	max-height: 300px;
+	height: auto;
+}
+
+.linkViewRootContainer .linkTitle {
+	font-family: 'Cabin Condensed', sans-serif;
+	color: #222831;
+	font-weight: bold;
+	font-size: 1.2em;
+	padding: 0px 5px;
+	margin-bottom: 0px;
+}
+
+.linkViewRootContainer .linkTags {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 0.8em;
+	color: #393E46;
+	font-style: italic;
+	opacity: 0.7;
+	padding: 0px 5px;
+	margin-top: 2px;
+	margin-bottom: 0px;
+}
+
+.linkViewRootContainer .linkDescription {
+	color: #222831;
+	font-size: 1em;
+	font-family: 'Open Sans', sans-serif;
+	padding: 0px 5px;
+	margin-top: 0px;
+	opacity: 0.8;
+	margin-bottom: 0px;
+}
+
 .tagButton {
 	display: inline-block;
 	border-radius: 15px;
