@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:3060';
+const API_BASE_URL = 'https://api.harshad.nl/linky';
 
 export const LOADING_TAGS = 'LOADING_TAGS';
 export const LOADED_TAGS = 'LOADED_TAGS';
