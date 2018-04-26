@@ -137,19 +137,24 @@ body {
 
 #tagRootContainer {
 	margin: 0 auto;
+	max-width: 1200px;
 }
 
 #tagRootContainer ul {
-	max-width: 90%;
 	text-align: center;
+	list-style-type: none;
+	-webkit-padding-start: 0px;
+	-moz-padding-start: 0px;
 }
 
 #tagRootContainer ul li {
 	display: inline;
+	margin: 0 auto;
+	padding: 0;
 }
 
 #brand {
-	max-width: 20%;
+	width: 100%;
 	margin: 0 auto;
 	margin-top: 20px;
 }
