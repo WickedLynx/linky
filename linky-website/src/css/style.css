@@ -180,6 +180,14 @@ body {
 	padding-bottom: 50px;
 }
 
+#appContainer a {
+	text-decoration: none;
+}
+
+#appContainer a:visited {
+	text-decoration: none;
+}
+
 @media (min-width: 300px) {
 	#linkColumnContainer {
 		-webkit-column-count: 2;

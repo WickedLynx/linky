@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import TagMenu from './tag_menu';
 import AllLinksView from './all_links_view';
+import { Link } from 'react-router-dom';
 
 class Home extends Component {
   constructor(props) {
@@ -21,17 +22,17 @@ class Home extends Component {
 		  this.onTagSelectionChange(tags);
 	  }}/>
 		  <div id="optionsWrapper">
-			<a href="/add">
+			<Link to="/add">
 				Add link
-			</a>
+			</Link>
 			<span>|</span>
-			<a href="/manage/tags">
+			<Link to="/manage/tags">
 				Manage tags
-			</a>
+			</Link>
 			<span>|</span>
-			<a href="logout">
+			<Link to="logout">
 				Logout
-			</a>
+			</Link>
 		  </div>
 		  <div>
 			<AllLinksView selectedTagIDs={this.state.selectedTagIDs}/>
