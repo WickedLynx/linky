@@ -4,6 +4,10 @@ import { fetchTags } from '../actions/index';
 import { Segment, Grid, Button } from 'semantic-ui-react';
 
 class TagMenu extends Component {
+	constructor(props) {
+		super(props);
+		this.state = { selectedTagIDs: [] };
+	}
   componentDidMount() {
     this.props.fetchTags();
   }
@@ -24,25 +28,34 @@ class TagMenu extends Component {
 	  
   }
 
+  clickTag(tag) {
+	  if (this.state.selectedTagIDs.includes(tag._id)) {
+		  this.setState({ selectedTagIDs: this.state.selectedTagIDs.filter((aTag) => { return aTag !== tag._id})});
+		  return;
+	  }
+	  this.setState({ selectedTagIDs: this.state.selectedTagIDs.concat([tag._id])});
+  }
+
   loaded() {
     const tags = this.props.tags;
 	if (tags.length === 0) {
 		return (<div></div>);
 	}
 	const buttons = tags.map((tag) => {
+		const className = "tagButton " + (this.state.selectedTagIDs.includes(tag._id) ? "tagButton-selected" : "tagButton-default");
 		return (
-			<Grid.Column key={tag._id} id="tagColumn">
-			<Segment compact basic>
-			<Button toggle>{tag.name}</Button>
-			</Segment>
-			</Grid.Column>
+			<li  key={tag._id}>
+			<div className={className} onClick={() => {
+				this.clickTag(tag);
+			}}>{tag.name}</div>
+			</li>
 		);
 	});
 	return (
 		<div id="tagRootContainer">
-		<Grid container doubling columns={10}>
+		<ul>
 			{buttons}
-		</Grid>
+		</ul>
 		</div>
 	);
 	

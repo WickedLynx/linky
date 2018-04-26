@@ -13,8 +13,10 @@ class Home extends Component {
   render() {
     return (
       <div>
-      <div>
-        <h1> Welcome to Linky! </h1>
+      <div id="brand">
+		  <a href="/">
+			<h1>Linky</h1>
+		  </a>
       </div>
         <TagMenu />
       <div>

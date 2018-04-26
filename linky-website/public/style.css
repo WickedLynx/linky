@@ -1,13 +1,70 @@
-#tagColumn {
-	margin: 0;
-	padding: 0;
+body {
+	background: #393E46;
+}
+.tagButton {
+	display: inline-block;
+	border-radius: 15px;
+	border-width: 1px;
+	border-style: solid;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	font-size: 1.2em;
+	margin: 5px;
+	font-family: 'Open Sans', sans-serif;
 }
 
-#tagColumn div {
-	padding: 2px;
+.tagButton:hover {
+	background: #00ADB5;
+	border-color: #393E46;
+	color: #393E46;
+	cursor: pointer;
+}
+
+.tagButton-default {
+	border-color: #00ADB5;
+	background: none;
+	color: #00ADB5;
+}
+
+.tagButton-selected {
+	background: #00ADB5;
+	border-color: #393E46;
+	color: #393E46;
+	cursor: pointer;
 }
 
 #tagRootContainer {
-	margin-top: 10px;
-	margin-bottom: 10px;
+	margin: 0 auto;
+}
+
+#tagRootContainer ul {
+	max-width: 90%;
+	text-align: center;
+}
+
+#tagRootContainer ul li {
+	display: inline;
+}
+
+#brand {
+	max-width: 20%;
+	margin: 0 auto;
+	margin-top: 20px;
+}
+
+
+#brand a {
+	text-align: center;
+	color: #EEEEEE;
+}
+
+#brand a:hover{
+	color: #00ADB5;
+}
+
+#brand a h1 {
+	font-family: 'Oleo Script', cursive;
+	font-size: 5em;
 }
