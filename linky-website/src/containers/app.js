@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Home from './home';
 import AddLinkView from './add_link_view';
+import '../style.css';
+import '../add_page.css';
 
 class App extends Component {
 
