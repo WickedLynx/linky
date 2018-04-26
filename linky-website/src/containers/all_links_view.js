@@ -4,6 +4,9 @@ import { fetchAllLinks } from '../actions/index';
 import { LinkView } from '../components/link_view';
 
 class AllLinksView extends Component {
+	constructor(props) {
+		super(props);
+	}
   componentDidMount() {
     this.props.fetchAllLinks();
   }
@@ -21,7 +24,22 @@ class AllLinksView extends Component {
   }
 
   loaded() {
-    const allLinks = this.props.links;
+	  var allLinks = this.props.links;
+	  const selectedTags = this.props.selectedTagIDs;
+	  console.log(selectedTags);
+	  if (selectedTags.length > 0) {
+		  allLinks = allLinks.filter((link) => {
+			  const tagCount = link.tags.length;
+			  if (tagCount === 0) { return false }
+			  for (var index = 0; index < tagCount; index++) {
+				  const tag = link.tags[index];
+				  if (selectedTags.includes(tag._id)) {
+					  return true;
+				  }
+			  }
+			  return false;
+		  });
+	  }
     const listElements = allLinks.map((link) => {
       return (
 		  <LinkView link={ link } key={link._id}/>
