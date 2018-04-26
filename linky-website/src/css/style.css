@@ -162,19 +162,19 @@ body {
 }
 
 
-#brand a {
+#brand h1 {
 	text-align: center;
 	color: #EEEEEE;
+	font-family: 'Oleo Script', cursive;
+	font-size: 5em;
+	margin: 15px auto; 
+	padding: 0;
 }
 
-#brand a:hover{
+#brand h1:hover{
 	color: #00ADB5;
 }
 
-#brand a h1 {
-	font-family: 'Oleo Script', cursive;
-	font-size: 5em;
-}
 
 #appContainer {
 	padding-bottom: 50px;
