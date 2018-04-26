@@ -15,7 +15,7 @@ class App extends Component {
 				<h1>Linky</h1>
 			  </a>
 		  </div>
-      <Router>
+      <Router basename="/linky">
       <Switch>
               <Route exact path='/' component={Home} />
               <Route exact path='/add' component={AddLinkView} />
