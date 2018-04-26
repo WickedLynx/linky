@@ -176,6 +176,10 @@ body {
 	font-size: 5em;
 }
 
+#appContainer {
+	padding-bottom: 50px;
+}
+
 @media (min-width: 300px) {
 	#linkColumnContainer {
 		-webkit-column-count: 2;

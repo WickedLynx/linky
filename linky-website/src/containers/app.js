@@ -8,7 +8,7 @@ class App extends Component {
 
   render() {
     return (
-      <div>
+      <div id="appContainer">
 		  <div id="brand">
 			  <a href="/">
 				<h1>Linky</h1>
