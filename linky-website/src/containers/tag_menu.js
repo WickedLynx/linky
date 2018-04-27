@@ -19,7 +19,7 @@ class TagMenu extends Component {
 
   error() {
     return (
-      <p>{this.props.error}</p>
+      <p>{this.props.error.message}</p>
     );
   }
 

@@ -15,7 +15,6 @@ class Home extends Component {
   }
 
   render() {
-	  console.log(this.state.selectedTagIDs);
     return (
       <div>
 	  <TagMenu onSelectionChange={(tags) => {

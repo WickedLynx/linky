@@ -66,12 +66,9 @@ body {
 	border-radius: 15px;
 	border-width: 1px;
 	border-style: solid;
-	padding-left: 10px;
-	padding-right: 10px;
-	padding-top: 5px;
-	padding-bottom: 5px;
+	padding: 3px 8px;
+	margin: 3px 3px;
 	font-size: 1.1em;
-	margin: 5px;
 	font-family: 'Open Sans', sans-serif;
 }
 
@@ -231,10 +228,10 @@ body {
 		border-radius: 15px;
 		border-width: 1px;
 		border-style: solid;
-		padding: 3px 7px;
 		font-size: 0.9em;
-		margin: 5px;
 		font-family: 'Open Sans', sans-serif;
+		padding: 3px 8px;
+		margin: 3px 3px;
 	}
 	#brand h1 {
 		text-align: center;
@@ -259,10 +256,10 @@ body {
 		border-radius: 15px;
 		border-width: 1px;
 		border-style: solid;
-		padding: 3px 7px;
 		font-size: 0.9em;
-		margin: 5px;
 		font-family: 'Open Sans', sans-serif;
+		padding: 3px 8px;
+		margin: 3px 3px;
 	}
 
 	#brand h1 {
@@ -288,10 +285,10 @@ body {
 		border-radius: 15px;
 		border-width: 1px;
 		border-style: solid;
-		padding: 3px 7px;
 		font-size: 0.9em;
-		margin: 5px;
 		font-family: 'Open Sans', sans-serif;
+		padding: 3px 8px;
+		margin: 3px 3px;
 	}
 
 	#brand h1 {

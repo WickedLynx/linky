@@ -2,11 +2,20 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { addLink } from '../actions/index';
 import TagMenu from './tag_menu';
+import qs from 'query-string';
 
 class AddLinkView extends Component {
   constructor(props) {
     super(props);
-    this.state = { urlInput: '', tagInput: '', selectedTags: [] };
+	var urlInput = '';
+	const query = this.props.location.search;
+	if (query) {
+		const link = qs.parse(query).link;
+		if (link) {
+			urlInput = link;
+		}
+	}
+    this.state = { urlInput: urlInput, tagInput: '', selectedTags: [] };
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
