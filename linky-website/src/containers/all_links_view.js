@@ -23,7 +23,6 @@ class AllLinksView extends Component {
   loaded() {
 	  var allLinks = this.props.links;
 	  const selectedTags = this.props.selectedTagIDs;
-	  console.log(selectedTags);
 	  if (selectedTags.length > 0) {
 		  allLinks = allLinks.filter((link) => {
 			  const tagCount = link.tags.length;
