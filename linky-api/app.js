@@ -41,8 +41,9 @@ if (false) {
 // Auth setup
 //----------------------------------------------------------------------
 
+console.log(Config);
 var jwtOptions = {};
-jwtOptions.jwtFromRequest = ExtractJwt.frommAuthHeaderAsBearerToken();
+jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 jwtOptions.secretOrKey = Config.jwtSecret;
 
 const strategy = new JwtStrategy(jwtOptions, function(jwtPayload, next) {
@@ -77,9 +78,9 @@ app.post('/login', function(req, res) {
 		const payload = { userID: user._id };
 		const token = jwt.sign(payload, jwtOptions.secretOrKey);
 		postSuccess(res, { token: token });
-	}).catch(error) {
+	}).catch(function(error) {
 		postError(res, 404, "User not found");
-	}
+	});
 });
 
 app.get('/links', passport.authenticate('jwt', { session: false }), function(req, res) {

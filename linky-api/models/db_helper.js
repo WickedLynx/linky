@@ -38,7 +38,7 @@ const DBHelper = {
 	  if (!user) {
 		return Tag.find({user: null}).exec();
 	  }
-	  return Tag.find({ user: user }).exec():
+	  return Tag.find({ user: user }).exec();
   },
 
   getAllLinks: function(user) {

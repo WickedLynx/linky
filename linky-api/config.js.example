@@ -1,3 +1,8 @@
 const Config = {
-	jwtSecret = ""
+	jwtSecret: "jwt secret",
+	saltWorkFactor: 10,
+	username: "user@example.com",
+	password: "defaultPassword"
 }
+
+module.exports = Config;
