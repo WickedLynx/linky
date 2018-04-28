@@ -20,7 +20,7 @@ class AddLinkView extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-	  if (!prevProps.link && this.props.addedLink) {
+	  if (prevProps.isLoading && this.props.addedLink) {
 		  this.props.history.push('/');
 	  }
   }
