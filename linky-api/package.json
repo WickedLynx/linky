@@ -11,13 +11,18 @@
   "license": "ISC",
   "dependencies": {
     "async": "^2.6.0",
+    "bcrypt": "^2.0.1",
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
     "cors": "^2.8.4",
     "express": "^4.16.2",
     "got": "^8.3.0",
+    "jsonwebtoken": "^8.2.1",
+    "lodash": "^4.17.10",
     "metascraper": "^3.10.4",
     "mongoose": "^5.0.9",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
     "valid-url": "^1.0.9"
   }
 }

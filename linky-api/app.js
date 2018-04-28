@@ -5,6 +5,13 @@ const bodyParser = require('body-parser');
 const Link = require('./models/link');
 const Tag = require('./models/tag');
 const DBHelper = require('./models/db_helper');
+const User = require('./models/user.js');
+const jwt = require('jsonwebtoken');
+const passport = require("passport");
+const passportJWT = require("passport-jwt");
+const ExtractJwt = passportJWT.ExtractJwt;
+const JwtStrategy = passportJWT.Strategy;
+const Config = require('./config.js');
 
 
 const app = express();
@@ -18,6 +25,8 @@ app.use(bodyParser.json());
 
 mongoose.connect("mongodb://127.0.0.1");
 
+DBHelper.createUserIfNeeded();
+
 // This clears the DB!
 if (false) {
   DBHelper.empty().then(function() {
@@ -29,33 +38,81 @@ if (false) {
 }
 
 //----------------------------------------------------------------------
+// Auth setup
+//----------------------------------------------------------------------
+
+var jwtOptions = {};
+jwtOptions.jwtFromRequest = ExtractJwt.frommAuthHeaderAsBearerToken();
+jwtOptions.secretOrKey = Config.jwtSecret;
+
+const strategy = new JwtStrategy(jwtOptions, function(jwtPayload, next) {
+	console.log("payload received: ", jwtPayload);
+	User.findOne({ _id: jwtPayload.userID })
+	.then(function(user) {
+		next(null, user);
+	}).catch(function(error) {
+		next(error, null);
+	});
+});
+
+passport.use(strategy);
+
+//----------------------------------------------------------------------
 // Routes
 //----------------------------------------------------------------------
 
-app.get('/links', function(req, res) {
-  DBHelper.getAllLinks().then(function(links) {
-    postSuccess(res, links);
-  }).catch(function(error) {
-    postError(res, 500, error.message);
-  });
+app.post('/login', function(req, res) {
+	const username = req.body.username;
+	const password = req.body.password;
+	if (!username || !password) {
+		postError(res, 402, "Username or password missing");
+		return;
+	}
+	User.findOne({ username: username })
+	.then(function(user) {
+		if (user.password !== password ) {
+			postError(res, 401, "Incorrect password");
+			return;
+		}
+		const payload = { userID: user._id };
+		const token = jwt.sign(payload, jwtOptions.secretOrKey);
+		postSuccess(res, { token: token });
+	}).catch(error) {
+		postError(res, 404, "User not found");
+	}
 });
 
-app.post('/links/add', function(req, res) {
-  const url = req.body.url;
-  const tags = req.body.tags;
-  DBHelper.addLink(req.body).then(function(link) {
-    postSuccess(res, link);
-  }).catch(function(err) {
-    postError(res, 500, err.message);
-  });
+app.get('/links', passport.authenticate('jwt', { session: false }), function(req, res) {
+	const user = req.user;
+	DBHelper.getAllLinks(user).then(function(links) {
+	  postSuccess(res, links);
+	}).catch(function(error) {
+	  postError(res, 500, error.message);
+	});
 });
 
-app.get('/tags', function(req, res) {
-  DBHelper.getAllTags().then(function(tags) {
-    postSuccess(res, tags);
-  }).catch(function(err) {
-    postError(res, 500, err.message);
-  })
+app.post('/links/add', passport.authenticate('jwt', { session: false }), function(req, res) {
+	const url = req.body.url;
+	const tags = req.body.tags;
+	const user = req.user;
+	if (!user) {
+		postError(res, 401, "You need to login to add links");
+		return;
+	}
+	DBHelper.addLink(user, req.body).then(function(link) {
+	  postSuccess(res, link);
+	}).catch(function(err) {
+	  postError(res, 500, err.message);
+	});
+});
+
+app.get('/tags', passport.authenticate('jwt', { session: false }), function (req, res) {
+	const user = req.user;
+	DBHelper.getAllTags(user).then(function(tags) {
+	  postSuccess(res, tags);
+	}).catch(function(err) {
+	  postError(res, 500, err.message);
+	});
 });
 
 // Seeding (for development only)

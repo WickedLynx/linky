@@ -8,6 +8,7 @@ const linkSchema = mongoose.Schema({
   dateCreated: { type: Date, default: Date.now },
   description: String,
   publisher: String,
+  user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
 
   tags: [
     {

@@ -6,6 +6,8 @@ const mongoose = require('mongoose');
 const validURL = require('valid-url');
 const metascraper = require('metascraper');
 const got = require('got');
+const Config = require('../config.js');
+const User = require('./user.js');
 
 const DBHelper = {
   empty: function() {
@@ -16,12 +18,34 @@ const DBHelper = {
     return entity.remove({}).exec();
   },
 
-  getAllTags: function() {
-    return Tag.find({}).exec();
+  createUserIfNeeded: function() {
+	  return new Promise(function(resolve, reject) {
+		  const username = Config.username;
+		  const password = Config.password;
+		  if (!username || !password) {
+			  reject("Could not read config");
+			  return;
+		  }
+		  User.findOne({ username: username }).then(function(user) {
+			  resolve(user);
+		  }).catch(function(error) {
+			  return User.create({ username: username, password: password }).exec();
+		  });
+	  });
   },
 
-  getAllLinks: function() {
-    return Link.find({}).populate('tags').exec();
+  getAllTags: function(user) {
+	  if (!user) {
+		return Tag.find({user: null}).exec();
+	  }
+	  return Tag.find({ user: user }).exec():
+  },
+
+  getAllLinks: function(user) {
+	if (!user) {
+		return Link.find({user: null}).populate('tags').exec();
+	}
+	return Link.find({user: user}).pupulate('tags').exec();
   },
 
   associateLinkWithTags: function(link, tags) {
@@ -68,14 +92,14 @@ const DBHelper = {
 	  });
   },
 
-  addLink: function(linkData) {
+  addLink: function(user, linkData) {
     const linkURL = linkData.url;
     const tagsToAdd = linkData.tags;
 
     const helper = this;
     return new Promise(function(resolve, reject) {
-      helper.insertLink(linkURL).then(function(link) {
-        helper.upsertTags(tagsToAdd).then(function(tags) {
+      helper.insertLink(user, linkURL).then(function(link) {
+        helper.upsertTags(user, tagsToAdd).then(function(tags) {
 			helper.associateLinkWithTags(link, tags).then(function(link) {
 				helper.fetchMetaForLink(link).then(function(link) {
 					resolve(link);
@@ -87,22 +111,27 @@ const DBHelper = {
 
   },
 
-  insertLink: function(linkURL) {
+  insertLink: function(user, linkURL) {
     if (!validURL.isUri(linkURL)) {
       return Promise.reject(Error("Link is not a valid URL"));
     }
     return new Promise(function(resolve, reject) {
-      Link.findOne({url: linkURL}).then(function(savedLink) {
+      Link.findOne({user: user, url: linkURL}).then(function(savedLink) {
         if (savedLink) {
           reject(Error("Link is already added"));
           return;
         }
-        Link.create({url: linkURL}).then(resolve).catch(reject);
+		Link.create({user: user, url: linkURL}).then(function(link) {
+			user.links.push(link);
+			user.save().then(function(user) {
+				resolve(link);
+			}).catch(reject);
+		}).catch(reject);
       }).catch(reject);
     });
   },
 
-  upsertTags: function(tags) {
+  upsertTags: function(user, tags) {
     const tagsToAdd = tags.map(function(tag) {
       return tag.trim().toLowerCase();
     });
@@ -113,7 +142,21 @@ const DBHelper = {
   },
 
   upsertTag: function(tag) {
-      return Tag.findOneAndUpdate({name: tag}, {name: tag}, {upsert: true, new: true}).exec();
+	  return new Promise(function(resolve, reject) {
+		  Tag.findOne({ user: user, name: tag }).then(function(existingTag) {
+			  if (existingTag) {
+				  resolve(existingTag);
+				  return;
+			  }
+			  Tag.create({ name: tag }).then(function(createdTag) {
+				  user.tags.push(createdTag);
+				  user.save().then(function(user) {
+					  resolve(createdTag);
+				  }).catch(reject);
+			  }).catch(reject);
+		  });
+	  });
+//      return Tag.findOneAndUpdate({name: tag}, {name: tag}, {upsert: true, new: true}).exec();
   }
 }
 
