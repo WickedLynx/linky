@@ -10,7 +10,7 @@ class AllLinksView extends Component {
 
   loading() {
     return (
-      <p>Loading...</p>
+      <div></div>
     );
   }
 
@@ -51,13 +51,7 @@ class AllLinksView extends Component {
   }
 
   render() {
-    if (this.props.isLoading) {
-      return this.loading();
-    } else if (this.props.error) {
-      return this.error();
-    } else {
       return this.loaded();
-    }
   }
 
 }

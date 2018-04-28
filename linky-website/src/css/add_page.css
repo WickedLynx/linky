@@ -6,11 +6,28 @@
 }
 
 .errorMessageWrapper p {
-	color: red;
-	font-family: 'Open sans', sans-serif;
+	color: #FFCCCC;
 	font-size: 1.2em;
+	font-family: 'Open sans', sans-serif;
 	width: 100%;
-	opacity: 0.7;
+}
+
+#notLoggedInFooter {
+	width: 100%;
+	max-width: 600px;
+	text-align: center;
+	margin: 10px auto;
+}
+
+#notLoggedInFooter a {
+	font: 'Open Sans', sans-serif;
+	font-size: 1.2em;
+	color: #EEEEEE;
+}
+
+#notLoggedInFooter a:hover {
+	color: #00ADB5;
+	cursor: pointer;
 }
 
 #addFormWrapper {
@@ -52,7 +69,7 @@
 	padding-right: 10px;
 }
 
-#addFormWrapper div input {
+.inputField {
 	-webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;

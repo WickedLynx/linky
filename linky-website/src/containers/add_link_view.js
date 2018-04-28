@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { addLink } from '../actions/index';
 import TagMenu from './tag_menu';
+import { Link } from 'react-router-dom';
 import qs from 'query-string';
 
 class AddLinkView extends Component {
@@ -40,16 +41,24 @@ class AddLinkView extends Component {
   }
 
   addView() {
+	  var notLoggedInFooter = <div></div>;
+	  if (!this.props.isLoggedIn) {
+		  notLoggedInFooter = (
+			  <div id="notLoggedInFooter">
+			  <Link to="/login">You need to login to add links</Link>
+			  </div>
+		  );
+	  }
     return (
 		<div>
         <div id="addFormWrapper">
 			<div>
-			<input type="text" placeholder="Link to add" value={this.state.urlInput} onChange={(event) => {
+			<input type="text" placeholder="Link to add" value={this.state.urlInput} className="inputField" onChange={(event) => {
 			  this.setState({...this.state, ...{ urlInput: event.target.value }})
 			}}></input>
 			</div>
 			<div>
-			<input type="text" value={this.state.tagInput} placeholder="Comma separated tags" onChange={(event) => {
+			<input type="text" value={this.state.tagInput} placeholder="Comma separated tags" className="inputField" onChange={(event) => {
 			  this.setState({...this.state, ...{ tagInput: event.target.value }})
 			}}></input>
 			</div>
@@ -57,15 +66,16 @@ class AddLinkView extends Component {
 		<TagMenu onSelectionChange={(tags) => {
 			this.onSelectionChange(tags);
 		}}/>
-			<div id="addFormButtonContainer">
-			<button onClick={() => {
-			  this.clickAdd();
-			}}>Add</button>
-			<button onClick={() => {
-				this.props.history.push('/');
-			}}>Cancel</button>
-			</div>
-			</div>
+		<div id="addFormButtonContainer">
+		<button onClick={() => {
+		  this.clickAdd();
+		}}>Add</button>
+		<button onClick={() => {
+			this.props.history.push('/');
+		}}>Cancel</button>
+		</div>
+		{notLoggedInFooter}
+		</div>
     );
   }
 
@@ -93,7 +103,7 @@ class AddLinkView extends Component {
 }
 
 function mapStateToProps(state) {
-  return { error: state.addLink.error, isLoading: state.addLink.isLoading, addedLink: state.addLink.link };
+  return { error: state.addLink.error, isLoading: state.addLink.isLoading, addedLink: state.addLink.link, isLoggedIn: state.auth.isLoggedIn };
 }
 
 export default connect(mapStateToProps, { addLink })(AddLinkView);

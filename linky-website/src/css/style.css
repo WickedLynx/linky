@@ -303,9 +303,7 @@ body {
 
 @media (hover: hover) {
 	.tagButton:hover {
-		background: #00ADB5;
-		border-color: #393E46;
-		color: #393E46;
+		color: #EEEEEE;
 		cursor: pointer;
 	}
 }

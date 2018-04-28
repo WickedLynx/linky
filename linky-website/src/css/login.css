@@ -1,0 +1,35 @@
+#loginContainer {
+	width: 90%;
+	max-width: 500px;
+	margin: 10px auto;
+	text-align: center;
+}
+
+#loginContainer div {
+	width: 100%;
+}
+
+#loginContainer .inputField {
+	width: 90%;
+	max-width: 500px;
+}
+
+#loginContainer button {
+	width: 60%;
+	margin: 10px auto;
+	height: 35px;
+	border-color: #EEEEEE;
+	background: none;
+	color: #EEEEEE;
+	font-family: 'Cabin', sans-serif;
+	font-size: 1.2em;
+	border-radius: 5px;
+	border-width: 1px;
+	border-style: solid;
+	cursor: pointer;
+}
+
+#loginError p {
+	color: #FFCCCC;
+	font-size: 1.2em;
+}
