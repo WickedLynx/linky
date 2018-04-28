@@ -41,18 +41,20 @@ if (false) {
 // Auth setup
 //----------------------------------------------------------------------
 
-console.log(Config);
 var jwtOptions = {};
 jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 jwtOptions.secretOrKey = Config.jwtSecret;
 
 const strategy = new JwtStrategy(jwtOptions, function(jwtPayload, next) {
-	console.log("payload received: ", jwtPayload);
 	User.findOne({ _id: jwtPayload.userID })
 	.then(function(user) {
-		next(null, user);
+		if (user) {
+			next(null, user);
+		} else {
+			next(null, false);
+		}
 	}).catch(function(error) {
-		next(error, null);
+		next(error, false);
 	});
 });
 
@@ -71,25 +73,32 @@ app.post('/login', function(req, res) {
 	}
 	User.findOne({ username: username })
 	.then(function(user) {
-		if (user.password !== password ) {
-			postError(res, 401, "Incorrect password");
+		if (!user) {
+			postError(res, 404, "User not found");
 			return;
 		}
-		const payload = { userID: user._id };
-		const token = jwt.sign(payload, jwtOptions.secretOrKey);
-		postSuccess(res, { token: token });
+		user.comparePassword(password, function(error, isValid) {
+			if (error || !isValid) {
+				postError(res, 401, "Incorrect password");
+				return;
+			}
+			const payload = { userID: user._id };
+			const token = jwt.sign(payload, jwtOptions.secretOrKey);
+			postSuccess(res, { user: user, token: token });
+		});
 	}).catch(function(error) {
 		postError(res, 404, "User not found");
 	});
 });
 
-app.get('/links', passport.authenticate('jwt', { session: false }), function(req, res) {
-	const user = req.user;
-	DBHelper.getAllLinks(user).then(function(links) {
-	  postSuccess(res, links);
-	}).catch(function(error) {
-	  postError(res, 500, error.message);
-	});
+app.get('/links', function(req, res, next) {
+	passport.authenticate('jwt', { session: false }, function(err, user, info) {
+		DBHelper.getAllLinks(user).then(function(links) {
+		  postSuccess(res, links);
+		}).catch(function(error) {
+		  postError(res, 500, error.message);
+		});
+	})(req, res, next);
 });
 
 app.post('/links/add', passport.authenticate('jwt', { session: false }), function(req, res) {
@@ -107,13 +116,14 @@ app.post('/links/add', passport.authenticate('jwt', { session: false }), functio
 	});
 });
 
-app.get('/tags', passport.authenticate('jwt', { session: false }), function (req, res) {
-	const user = req.user;
-	DBHelper.getAllTags(user).then(function(tags) {
-	  postSuccess(res, tags);
-	}).catch(function(err) {
-	  postError(res, 500, err.message);
-	});
+app.get('/tags', function (req, res) {
+	passport.authenticate('jwt', { session: false }, function(err, user, info) {
+		DBHelper.getAllTags(user).then(function(tags) {
+		  postSuccess(res, tags);
+		}).catch(function(err) {
+		  postError(res, 500, err.message);
+		});
+	})(req, res);
 });
 
 // Seeding (for development only)
