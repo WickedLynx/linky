@@ -10,6 +10,7 @@ linky-api/logs
 linky-api/*.log
 linky-api/npm-debug.log*
 linky-api/yarn-debug.log*
+linky-api/config.js
 api/yarn-error.log*
 
 linky-website/logs
