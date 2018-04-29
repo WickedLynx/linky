@@ -2,7 +2,7 @@ import axios from 'axios';
 import AuthStore from '../other/auth_store';
 import Cache from '../other/cache';
 
-const API_BASE_URL = 'https://api.harshad.nl/linky';
+const API_BASE_URL = 'http://localhost:3060';
 
 export const LOADING_TAGS = 'LOADING_TAGS';
 export const LOADED_TAGS = 'LOADED_TAGS';
@@ -94,7 +94,7 @@ export const deleteLink = (link) => dispatch => {
 	dispatch({
 		type: DELETE_LINK_LOADING
 	});
-	return axios.delete('/links/delete/' + link._id, { headers: AuthStore.authHeader()}).then( response => {
+	return axios.delete(API_BASE_URL + '/links/delete/' + link._id, { headers: AuthStore.authHeader()}).then( response => {
 		dispatch(fetchAllLinks());
 		dispatch({
 			type: DELETE_LINK_LOADED
