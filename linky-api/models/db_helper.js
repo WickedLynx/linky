@@ -57,6 +57,25 @@ const DBHelper = {
 	return Link.find({user: user._id }).populate('tags').exec();
   },
 
+  deleteLink: function(user, linkID) {
+	  return new Promise(function(resolve, reject) {
+		  Link.findOneAndRemove({ _id: linkID, user: user._id }).populate('tags').then(function(link) {
+			  if(!link) {
+				  reject(null);
+				  return;
+			  }
+			  if (!link.tags || link.tags.length === 0) {
+				  resolve(link);
+				  return;
+			  }
+			  Tag.update({_id: { $in: link.tags }}, {$pull: { links: link._id }})
+				  .then(function(numberAffected) {
+					  resolve(link);
+				  }).catch(reject);
+		  }).catch(reject);
+	  });
+  },
+
   associateLinkWithTags: function(link, tags) {
     tags.forEach(function(tag) {
       link.tags.push(tag);

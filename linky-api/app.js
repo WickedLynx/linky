@@ -116,6 +116,24 @@ app.post('/links/add', passport.authenticate('jwt', { session: false }), functio
 	});
 });
 
+app.delete('/links/delete/:linkID', passport.authenticate('jwt', { session: false }), function(req, res) {
+	const user = req.user;
+	const linkID = req.params.linkID;
+	if (!user) {
+		postError(res, 404, "User not found");
+		return;
+	}
+	if (!linkID) {
+		postError(res, 402, "Invalid link ID");
+		return;
+	} 
+	DBHelper.deleteLink(user, linkID).then(function(link) {
+		postSuccess(res, link);
+	}).catch(function(error) {
+		postError(res, 500, error.message);
+	});
+});
+
 app.get('/tags', function (req, res) {
 	passport.authenticate('jwt', { session: false }, function(err, user, info) {
 		DBHelper.getAllTags(user).then(function(tags) {
