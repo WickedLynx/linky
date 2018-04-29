@@ -15,6 +15,7 @@ body {
 	display: inline-block;
 	width: 100%;
 	margin: 4px 0px;
+	position: relative;
 }
 
 .linkViewRootContainer:hover {
@@ -84,6 +85,36 @@ body {
 	border-color: #393E46;
 	color: #393E46;
 	cursor: pointer;
+}
+
+#deleteLinkButton {
+	background: rgba(0, 0, 0, 0.5);
+	height: 20px;
+	width: 20px;
+	text-align: center;
+	border-radius: 10px;
+	display: inline-block;
+	position: absolute;
+	top: 0;
+	right: 0;
+	z-index: 1;
+	padding: 0;
+	margin: 0;
+}
+
+#deleteLinkButton p {
+	width: 100%;
+	font-family: 'Open Sans', 'sans-serif';
+	font-weight: bold;
+	font-size: 1.0em;
+	color: #EEEEEE;
+	margin: 0;
+	padding: 0;
+}
+
+#deleteLinkButton p:hover {
+	cursor: pointer;
+	color: #00ADB5;
 }
 
 #optionsWrapper {

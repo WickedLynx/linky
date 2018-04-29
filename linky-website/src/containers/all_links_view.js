@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchAllLinks } from '../actions/index';
+import { fetchAllLinks, deleteLink } from '../actions/index';
 import { LinkView } from '../components/link_view';
 
 class AllLinksView extends Component {
@@ -38,7 +38,9 @@ class AllLinksView extends Component {
 	  }
     const listElements = allLinks.map((link) => {
       return (
-		  <LinkView link={ link } key={link._id}/>
+		  <LinkView link={ link } onDeleteClick={() => {
+			  this.props.deleteLink(link);
+		  }} key={link._id}/>
       );
     })
     return (
@@ -64,4 +66,4 @@ function mapStateToProps(state) {
    };
 }
 
-export default connect(mapStateToProps, { fetchAllLinks })(AllLinksView);
+export default connect(mapStateToProps, { fetchAllLinks, deleteLink })(AllLinksView);

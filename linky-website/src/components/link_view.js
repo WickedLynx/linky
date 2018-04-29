@@ -9,11 +9,14 @@ export function LinkView(props) {
 
 	return (
 		<div className="linkViewRootContainer">
+		<div id="deleteLinkButton" onClick={props.onDeleteClick}>
+			<p>x</p>
+		</div>
 		<a href={props.link.url}>
-			<img src={image} alt=""></img>
-			<p className="linkTitle">{title}</p>
-			<p className="linkDescription">{description}</p>
-			<p className="linkTags">{tagString}</p>
+		<img src={image} alt=""></img>
+		<p className="linkTitle">{title}</p>
+		<p className="linkDescription">{description}</p>
+		<p className="linkTags">{tagString}</p>
 		</a>
 		</div>
 	);

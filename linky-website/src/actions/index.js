@@ -21,6 +21,10 @@ export const LOGIN_LOADED = 'LOGIN_LOADED';
 export const LOGIN_ERROR = 'LOGIN_ERROR';
 export const LOGOUT = "LOGOUT";
 
+export const DELETE_LINK_LOADING = "DELETE_LINK_LOADING";
+export const DELETE_LINK_LOADED = "DELETE_LINK_LOADED";
+export const DELETE_LINK_ERROR = "DELETE_LINK_ERROR";
+
 function parseError(error) {
   var errorToReturn = { message: "Unknown error :(", code: 500 };
   if (error && error.response && error.response.data) {
@@ -84,6 +88,23 @@ export const addLink = (link) => dispatch => {
       error: parseError(error)
     });
   });
+}
+
+export const deleteLink = (link) => dispatch => {
+	dispatch({
+		type: DELETE_LINK_LOADING
+	});
+	return axios.delete('/links/delete/' + link._id, { headers: AuthStore.authHeader()}).then( response => {
+		dispatch(fetchAllLinks());
+		dispatch({
+			type: DELETE_LINK_LOADED
+		});
+	}).catch( error => {
+		dispatch({
+			type: DELETE_LINK_ERROR,
+			error: parseError(error)
+		});
+	});
 }
 
 export const login = (username, password) => dispatch => {
