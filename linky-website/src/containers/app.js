@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import Home from './home';
 import AddLinkView from './add_link_view';
 import LoginView from './login_view';
@@ -12,15 +12,17 @@ class App extends Component {
   render() {
     return (
       <div id="appContainer">
-		  <div id="brand">
-			<h1>Linky</h1>
-		  </div>
       <Router basename="/linky">
-      <Switch>
-              <Route exact path='/' component={Home} />
-              <Route exact path='/add' component={AddLinkView} />
-              <Route exact path='/login' component={LoginView} />
-      </Switch>
+		  <div>
+			  <div id="brand">
+				  <Link to="/"><h1>Linky</h1></Link>
+			  </div>
+			  <Switch>
+				  <Route exact path='/' component={Home} />
+				  <Route exact path='/add' component={AddLinkView} />
+				  <Route exact path='/login' component={LoginView} />
+			  </Switch>
+		  </div>
       </Router>
       </div>
     );

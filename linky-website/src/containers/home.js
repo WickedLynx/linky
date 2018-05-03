@@ -4,16 +4,23 @@ import AllLinksView from './all_links_view';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logout } from '../actions/index';
+import qs from 'query-string';
 
 class Home extends Component {
   constructor(props) {
     super(props);
-	this.state = { selectedTagIDs: []};
+	const query = this.props.location.search;
+	var tagNames = [];
+	if (query) {
+		const commaSeparatedTags = qs.parse(query).tags;
+		tagNames = commaSeparatedTags.split(',');
+	}
+	this.state = { selectedTagIDs: [], selectedTagNames: tagNames };
   }
 
   onTagSelectionChange(tags) {
 	  const tagIDs = tags.map((tag) => { return tag._id; });
-	  this.setState({...this.state, ...{selectedTagIDs: tagIDs} })
+	  this.setState({...this.state, ...{selectedTagIDs: tagIDs, selectedTagNames: [] } })
   }
 
   render() {
@@ -55,7 +62,7 @@ class Home extends Component {
 	  }
     return (
       <div>
-		  <TagMenu onSelectionChange={(tags) => {
+		  <TagMenu selectedTagNames={ this.state.selectedTagNames } onSelectionChange={(tags) => {
 			  this.onTagSelectionChange(tags);
 		  }}/>
 		  {options}

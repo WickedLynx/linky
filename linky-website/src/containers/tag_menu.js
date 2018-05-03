@@ -5,8 +5,9 @@ import { fetchTags } from '../actions/index';
 class TagMenu extends Component {
 	constructor(props) {
 		super(props);
-		this.state = { selectedTagIDs: [] };
+		this.state = { selectedTagIDs: [], selectedTagNames: props.selectedTagNames };
 	}
+
   componentDidMount() {
     this.props.fetchTags();
   }
@@ -41,6 +42,22 @@ class TagMenu extends Component {
 		  this.props.onSelectionChange(selectedTags);
 	  }
 	  this.setState({ selectedTagIDs: selectedIDs });
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+		if (nextProps.tags.length > 0 && nextProps.selectedTagNames && nextProps.selectedTagNames.length > 0) {
+			const selectedTags = nextProps.tags.filter(function isIncluded(tag) {
+				return prevState.selectedTagNames.includes(tag.name);
+			});
+			const selectedTagIDs = selectedTags.map(function transform(tag) {
+				return tag._id;
+			});
+			if (nextProps.onSelectionChange) {
+				nextProps.onSelectionChange(selectedTags);
+			}
+			return { selectedTagNames: [], selectedTagIDs: selectedTagIDs }
+		}
+		return null;
   }
 
   loaded() {
