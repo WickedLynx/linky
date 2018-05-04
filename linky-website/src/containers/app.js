@@ -6,13 +6,14 @@ import LoginView from './login_view';
 import '../css//style.css';
 import '../css/add_page.css';
 import { connect } from 'react-redux';
+import { BaseName } from '../config.js'
 
 class App extends Component {
 
   render() {
     return (
       <div id="appContainer">
-      <Router basename="/linky">
+		  <Router basename={BaseName && BaseName.length > 0 ? BaseName : "/"}>
 		  <div>
 			  <div id="brand">
 				  <Link to="/"><h1>Linky</h1></Link>

@@ -1,0 +1,2 @@
+export const BaseName = "<base name for the website. Leave blank if installing at server root>";
+export const ApiURL = "<your api root url>";

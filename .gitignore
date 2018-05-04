@@ -18,6 +18,8 @@ linky-website/*.log
 linky-website/npm-debug.log*
 linky-website/yarn-debug.log*
 linky-website/yarn-error.log*
+linky-website/src/config.js
+linky-website/.env
 
 # Runtime data
 linky-website/pids

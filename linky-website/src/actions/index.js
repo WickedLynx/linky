@@ -1,9 +1,7 @@
 import axios from 'axios';
 import AuthStore from '../other/auth_store';
 import Cache from '../other/cache';
-
-//const API_BASE_URL = 'http://localhost:3060'; // Dev
-const API_BASE_URL = 'https://api.harshad.nl/linky'; // Prod
+import { ApiURL } from '../config';
 
 export const LOADING_TAGS = 'LOADING_TAGS';
 export const LOADED_TAGS = 'LOADED_TAGS';
@@ -39,7 +37,7 @@ export const fetchTags = () => dispatch => {
   dispatch({
     type: LOADING_TAGS
   });
-  return axios.get(API_BASE_URL + '/tags', { headers: AuthStore.authHeader() })
+  return axios.get(ApiURL + '/tags', { headers: AuthStore.authHeader() })
   .then(response => {
     dispatch({
       type: LOADED_TAGS,
@@ -57,7 +55,7 @@ export const fetchAllLinks = () => dispatch => {
   dispatch({
     type: ALL_LINKS_LOADING
   });
-  return axios.get(API_BASE_URL + '/links', { headers: AuthStore.authHeader() })
+  return axios.get(ApiURL + '/links', { headers: AuthStore.authHeader() })
   .then(response => {
     dispatch({
       type: ALL_LINKS_LOADED,
@@ -75,7 +73,7 @@ export const addLink = (link) => dispatch => {
   dispatch({
     type: ADD_LINK_LOADING
   });
-  return axios.post(API_BASE_URL + '/links/add', {
+  return axios.post(ApiURL + '/links/add', {
     url: link.url,
     tags: link.tags
   }, { headers: AuthStore.authHeader() }).then(response => {
@@ -95,7 +93,7 @@ export const deleteLink = (link) => dispatch => {
 	dispatch({
 		type: DELETE_LINK_LOADING
 	});
-	return axios.delete(API_BASE_URL + '/links/delete/' + link._id, { headers: AuthStore.authHeader()}).then( response => {
+	return axios.delete(ApiURL + '/links/delete/' + link._id, { headers: AuthStore.authHeader()}).then( response => {
 		dispatch(fetchAllLinks());
 		dispatch({
 			type: DELETE_LINK_LOADED
@@ -112,7 +110,7 @@ export const login = (username, password) => dispatch => {
 	dispatch({
 		type: LOGIN_LOADING,
 	});
-	return axios.post(API_BASE_URL + '/login', {
+	return axios.post(ApiURL + '/login', {
 		username: username,
 		password: password
 	}).then(response => {
