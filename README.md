@@ -2,7 +2,7 @@
 
 Linky is a tag-based bookmark manager written in Node/React and uses MongoDB for persistence.
 
-[Screenshot]()
+[Screenshot](./screenshot.png)
 
 [Live demo](https://harshad.nl/linky)
 
@@ -15,6 +15,7 @@ Note: The demo runs Linky without a user and hence you cannot add or remove link
 	- MongoDB `>= v3.2.11` up and running
 
 ### Configuration
+
 __Backend:__
 
 The available configuration options are specified in `linky-api/config.js.example`. Copy this file to `linky-api/config.js` and change the parameters as per your needs.
@@ -26,11 +27,14 @@ The frontend configuration options are specified in `linky-website/config.js.exa
 
 If you intend to run Linky in a sub-path rather than at the server root (`https://mydomain.com/linky` instead of `https://mydomain.com`):
 
-	>    echo "BASE_PATH=https://mydomain.com/linky" > ./linky-website/.env
+	>    echo "BASE_PATH=https://<server root>" > ./linky-website/.env
+
+You will also need to set the the `baseName` to the base path of Linky in this case, eg: `export const BaseName = "/linky"`
 	
-The frontend is a browser-rendered React app created using [create-react-app](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#adding-a-stylesheet). You can refer to its README for any further customisations.
+The frontend is a browser-rendered React app created using [create-react-app](https://github.com/facebook/create-react-app/). You can refer to its README for any further customisations.
 
 ### Building and running
+
 __Backend:__
 
 Ensure you have MongoDB up and running. And then:
@@ -46,4 +50,21 @@ __Frontend:__
 >		npm run build
 >		node server.js
 
-You can edit `linky-website/server.js` to change the server port or do any other custom actions.
+You can edit `linky-website/server.js` to change the server port or do any other custom actions. By default the api is served on port `3060` and the website on port `3061`.
+
+## Other features
+
+### Pre-specifying tags
+
+The homepage allows specifying tags to select as a query parameter: `https://mydomain.com?tags=design,work`.
+
+### Specifying a link to add in the query
+
+The add-link path allows you to specify the url to add as a query parameter: `https://mydomain.com/add?link=<url>`
+
+## TODO
+
+-	Allow editing and deleting tags
+-	Allow logical operations between tags, eg: `'tools' && 'design'`
+-	Allow saving a filter as a bookmark
+-	Show proper loading animations and error messages
