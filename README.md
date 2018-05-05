@@ -2,7 +2,7 @@
 
 Linky is a tag-based bookmark manager written in Node/React and uses MongoDB for persistence.
 
-[Screenshot](./screenshot.png)
+![Screenshot](https://github.com/WickedLynx/linky/blob/master/screenshot.png)
 
 [Live demo](https://harshad.nl/linky)
 
