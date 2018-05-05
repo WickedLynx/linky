@@ -23,7 +23,7 @@ Since Linky was designed to be used as a personal tool, signing up new users is 
 
 __Frontend:__
 
-The frontend configuration options are specified in `linky-website/config.js.example`. Copy this file to `linky-api/config.js` and change the `apiURL` to point to your backend installation. 
+The frontend configuration options are specified in `linky-website/config.js.example`. Copy this file to `linky-api/config.js` and change the `ApiURL` to point to your backend installation. 
 
 If you intend to run Linky in a sub-path rather than at the server root (`https://mydomain.com/linky` instead of `https://mydomain.com`):
 
