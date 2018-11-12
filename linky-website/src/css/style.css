@@ -123,6 +123,21 @@ body {
 	text-align: center;
 }
 
+#clearTagsButton {
+	display: inline-block;
+	padding: 3px 8px;
+	margin: 3px 3px;
+	font-size: 1.1em;
+	font-family: 'Open Sans', sans-serif;
+	background: none;
+	color: #00ADB5;
+	cursor: pointer;
+}
+
+#clearTagsButton:hover {
+	color: white;
+}
+
 
 #optionsWrapper a {
 	background: none;

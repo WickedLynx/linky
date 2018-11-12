@@ -29,6 +29,12 @@ class TagMenu extends Component {
   }
 
   clickTag(tag) {
+	  if (!tag) { return }
+	  if (tag._id === "clear all") {
+		this.props.onSelectionChange([]);
+		this.setState({ selectedTagIDs: [] });
+		return;
+	  }
 	  var selectedIDs = this.state.selectedTagIDs;
 	  if (this.state.selectedTagIDs.includes(tag._id)) {
 		  selectedIDs = this.state.selectedTagIDs.filter((aTag) => { return aTag !== tag._id});
@@ -65,7 +71,10 @@ class TagMenu extends Component {
 	if (tags.length === 0) {
 		return (<div></div>);
 	}
-	const buttons = tags.map((tag) => {
+	const clearAllButton = <div id="clearTagsButton" key="clear all" onClick={() => {
+		this.clickTag({ "_id" : "clear all" })
+		}}>Clear all</div>
+	var buttons = tags.map((tag) => {
 		const className = "tagButton " + (this.state.selectedTagIDs.includes(tag._id) ? "tagButton-selected" : "tagButton-default");
 		return (
 			<li  key={tag._id}>
@@ -75,6 +84,7 @@ class TagMenu extends Component {
 			</li>
 		);
 	});
+	buttons.push(clearAllButton);
 	return (
 		<div id="tagRootContainer">
 		<ul>
