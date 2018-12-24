@@ -24,7 +24,7 @@ class AddLinkView extends Component {
   componentDidUpdate(prevProps, prevState, snapshot) {
 	  if (prevProps.isLoading && this.props.addedLink) {
 		if (this.state.closeTab) {
-			window.close();
+			window.location.replace(this.state.urlInput);
 			return;
 		}
 		  this.props.history.push('/');
