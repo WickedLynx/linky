@@ -10,17 +10,23 @@ class AddLinkView extends Component {
     super(props);
 	var urlInput = '';
 	const query = this.props.location.search;
+	let shouldCloseTab = false;
 	if (query) {
 		const link = qs.parse(query).link;
 		if (link) {
 			urlInput = link;
 		}
+		shouldCloseTab = qs.parse(query).closeTab || false;
 	}
-    this.state = { urlInput: urlInput, tagInput: '', selectedTags: [] };
+    this.state = { urlInput: urlInput, tagInput: '', selectedTags: [], closeTab: shouldCloseTab };
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
 	  if (prevProps.isLoading && this.props.addedLink) {
+		if (this.state.closeTab) {
+			window.close();
+			return;
+		}
 		  this.props.history.push('/');
 	  }
   }
